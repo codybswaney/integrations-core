@@ -34,6 +34,7 @@ from .common import (
     check_uptime_metrics,
     check_wal_receiver_metrics,
     get_expected_instance_tags,
+    check_wal_metrics,
     requires_static_version,
 )
 from .utils import _get_conn, _get_superconn, requires_over_10, requires_over_14
@@ -67,6 +68,7 @@ def test_common_metrics(aggregator, integration_check, pg_instance, is_aurora):
     check_logical_replication_slots(aggregator, expected_tags)
     check_physical_replication_slots(aggregator, expected_tags)
     check_snapshot_txid_metrics(aggregator, expected_tags=expected_tags)
+    check_wal_metrics(aggregator, expected_tags=expected_tags)
 
     aggregator.assert_all_metrics_covered()
 
