@@ -5,9 +5,10 @@ import psycopg2
 import pytest
 
 from datadog_checks.base import ConfigurationError
-from datadog_checks.postgres.relationsmanager import RelationsManager
+from datadog_checks.postgres.relationsmanager import QUERY_PG_CLASS, RelationsManager
 
-from .common import DB_NAME, HOST, PORT
+from .common import DB_NAME, HOST, PORT, _iterate_metric_name
+from .utils import requires_over_11
 
 RELATION_METRICS = [
     'postgresql.seq_scans',
@@ -29,8 +30,6 @@ RELATION_METRICS = [
     'postgresql.analyzed',
     'postgresql.autoanalyzed',
 ]
-
-RELATION_SIZE_METRICS = ['postgresql.table_size', 'postgresql.total_size', 'postgresql.index_size']
 
 RELATION_INDEX_METRICS = [
     'postgresql.index_scans',
@@ -75,8 +74,54 @@ def test_relations_metrics(aggregator, integration_check, pg_instance):
     for name in RELATION_INDEX_METRICS:
         aggregator.assert_metric(name, count=0, tags=expected_tags)
 
-    for name in RELATION_SIZE_METRICS:
+    for name in _iterate_metric_name(QUERY_PG_CLASS):
         aggregator.assert_metric(name, count=1, tags=expected_size_tags)
+
+
+@pytest.mark.integration
+@pytest.mark.usefixtures('dd_environment')
+@requires_over_11
+def test_partition_relation(aggregator, integration_check, pg_instance):
+    pg_instance['relations'] = [
+        {'relation_regex': 'test_.*'},
+    ]
+
+    posgres_check = integration_check(pg_instance)
+    posgres_check.check(pg_instance)
+
+    part_1_tags = pg_instance['tags'] + [
+        'port:{}'.format(pg_instance['port']),
+        'db:%s' % pg_instance['dbname'],
+        'table:test_part1',
+        'partition_of:test_part',
+        'schema:public',
+        'dd.internal.resource:database_instance:{}'.format(posgres_check.resolved_hostname),
+    ]
+    aggregator.assert_metric('postgresql.relation.pages', value=3, count=1, tags=part_1_tags)
+    aggregator.assert_metric('postgresql.relation.tuples', value=499, count=1, tags=part_1_tags)
+    aggregator.assert_metric('postgresql.relation.all_visible', value=3, count=1, tags=part_1_tags)
+    aggregator.assert_metric('postgresql.table_size', value=24576, count=1, tags=part_1_tags)
+    aggregator.assert_metric('postgresql.relation_size', value=24576, count=1, tags=part_1_tags)
+    aggregator.assert_metric('postgresql.index_size', value=65536, count=1, tags=part_1_tags)
+    aggregator.assert_metric('postgresql.toast_size', value=0, count=1, tags=part_1_tags)
+    aggregator.assert_metric('postgresql.total_size', value=90112, count=1, tags=part_1_tags)
+
+    part_2_tags = pg_instance['tags'] + [
+        'port:{}'.format(pg_instance['port']),
+        'db:%s' % pg_instance['dbname'],
+        'table:test_part2',
+        'partition_of:test_part',
+        'schema:public',
+        'dd.internal.resource:database_instance:{}'.format(posgres_check.resolved_hostname),
+    ]
+    aggregator.assert_metric('postgresql.relation.pages', value=8, count=1, tags=part_2_tags)
+    aggregator.assert_metric('postgresql.relation.tuples', value=1502, count=1, tags=part_2_tags)
+    aggregator.assert_metric('postgresql.relation.all_visible', value=8, count=1, tags=part_2_tags)
+    aggregator.assert_metric('postgresql.table_size', value=73728, count=1, tags=part_2_tags)
+    aggregator.assert_metric('postgresql.relation_size', value=65536, count=1, tags=part_2_tags)
+    aggregator.assert_metric('postgresql.index_size', value=98304, count=1, tags=part_2_tags)
+    aggregator.assert_metric('postgresql.toast_size', value=8192, count=1, tags=part_2_tags)
+    aggregator.assert_metric('postgresql.total_size', value=172032, count=1, tags=part_2_tags)
 
 
 @pytest.mark.integration
@@ -141,8 +186,8 @@ def test_relations_metrics_regex(aggregator, integration_check, pg_instance):
         for name in RELATION_INDEX_METRICS:
             aggregator.assert_metric(name, count=0, tags=expected_tags[relation])
 
-        for name in RELATION_SIZE_METRICS:
-            aggregator.assert_metric(name, count=1, tags=expected_tags[relation])
+    for name in _iterate_metric_name(QUERY_PG_CLASS):
+        aggregator.assert_metric(name, count=1, tags=expected_tags[relation])
 
 
 @pytest.mark.integration
@@ -159,7 +204,7 @@ def test_max_relations(aggregator, integration_check, pg_instance):
                 relation_metrics.append(m)
         assert len(relation_metrics) == 1
 
-    for name in RELATION_SIZE_METRICS:
+    for name in _iterate_metric_name(QUERY_PG_CLASS):
         relation_metrics = []
         for m in aggregator._metrics[name]:
             if any(['table:' in tag for tag in m.tags]):
