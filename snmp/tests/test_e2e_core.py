@@ -2,9 +2,9 @@
 # All rights reserved
 # Licensed under Simplified BSD License (see LICENSE)
 import pytest
-from tests.common import SNMP_CONTAINER_NAME
 
 from datadog_checks.dev.docker import get_container_ip
+from tests.common import SNMP_CONTAINER_NAME
 
 from . import common, metrics
 
@@ -312,7 +312,7 @@ def test_e2e_meraki_cloud_controller(dd_agent_check):
     aggregator.assert_metric(
         'snmp.interface.status',
         metric_type=aggregator.GAUGE,
-        tags=if_tags + ['interface_index:11', 'status:warning'],
+        tags=if_tags + ['interface_index:11', 'status:warning', 'admin_status:down', 'oper_status:lower_layer_down'],
         value=1,
     )
     aggregator.assert_all_metrics_covered()
@@ -370,5 +370,35 @@ def test_e2e_core_detect_metrics_using_apc_ups_metrics(dd_agent_check):
     if_in_error_metrics = aggregator.metrics('snmp.ifInErrors.rate')
     assert len(if_in_error_metrics) == 1
     assert if_in_error_metrics[0].value > 0
+
+    aggregator.assert_all_metrics_covered()
+
+
+def test_e2e_core_cisco_csr(dd_agent_check):
+    config = common.generate_container_instance_config([])
+    instance = config['instances'][0]
+    instance.update({'community_string': 'cisco-csr1000v'})
+    config['init_config']['loader'] = 'core'
+    instance = config['instances'][0]
+    aggregator = common.dd_agent_check_wrapper(dd_agent_check, config, rate=True)
+
+    global_tags = [
+        'snmp_profile:cisco-csr1000v',
+        'device_vendor:cisco',
+        'device_namespace:default',
+        "snmp_device:{}".format(instance['ip_address']),
+    ]
+
+    common.assert_common_metrics(aggregator, global_tags, is_e2e=True, loader='core')
+
+    metric_tags = global_tags + ['neighbor:244.12.239.177', 'admin_status:start', 'peer_state:established']
+
+    for metric in metrics.PEER_GAUGES:
+        aggregator.assert_metric('snmp.{}'.format(metric), metric_type=aggregator.GAUGE, tags=metric_tags, count=2)
+
+    for metric in metrics.PEER_RATES:
+        aggregator.assert_metric('snmp.{}'.format(metric), metric_type=aggregator.GAUGE, tags=metric_tags)
+
+    aggregator.assert_metric('snmp.peerConnectionByState', metric_type=aggregator.GAUGE, tags=metric_tags, value=1)
 
     aggregator.assert_all_metrics_covered()
