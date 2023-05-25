@@ -1,1 +1,2 @@
 metric_name,metric_type,interval,unit_name,per_unit_name,description,orientation,integration,short_name,curated_metric
+torchserve.frontend.requests.2xx.count,count,,,,,1,torchserve,frontend 2xx,

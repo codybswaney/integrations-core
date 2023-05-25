@@ -6,20 +6,12 @@ import os
 
 import pytest
 
-from datadog_checks.dev import get_docker_hostname, get_here, docker_run
+from datadog_checks.dev import docker_run, get_here
+from datadog_checks.dev.conditions import CheckEndpoints
+from datadog_checks.dev.http import MockResponse
 from datadog_checks.torchserve import TorchserveCheck
 
-from datadog_checks.dev.conditions import CheckEndpoints
-
-API_PORT = "8080"
-OPENMETRICS_PORT = "8082"
-
-API_URL = f"http://{get_docker_hostname()}:{API_PORT}"
-OPENMETRICS_ENDPOINT = f"http://{get_docker_hostname()}:{OPENMETRICS_PORT}/metrics"
-
-INSTANCE = {
-    "openmetrics_endpoint": OPENMETRICS_ENDPOINT,
-}
+from .common import API_URL, HERE, INSTANCE, MOCKED_INSTANCE, OPENMETRICS_ENDPOINT
 
 
 @pytest.fixture(scope='session')
@@ -45,5 +37,25 @@ def instance():
 
 
 @pytest.fixture
-def check(instance):
-    return TorchserveCheck('torchserve', {}, [instance])
+def mocked_instance():
+    return copy.deepcopy(MOCKED_INSTANCE)
+
+
+@pytest.fixture
+def check():
+    return lambda instance: TorchserveCheck('torchserve', {}, [instance])
+
+
+def mock_http_responses(url, **_params):
+    mapping = {
+        'http://torchserve:8082/metrics': 'openmetrics/metrics.txt',
+        'http://torchserve:8081/ping': 'api/healthy.txt',
+    }
+
+    metrics_file = mapping.get(url)
+
+    if not metrics_file:
+        pytest.fail(f"url `{url}` not registered")
+
+    with open(os.path.join(HERE, 'fixtures', metrics_file)) as f:
+        return MockResponse(content=f.read())

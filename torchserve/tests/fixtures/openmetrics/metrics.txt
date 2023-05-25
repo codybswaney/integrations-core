@@ -1,0 +1,51 @@
+# HELP Requests5XX Torchserve prometheus counter metric with unit: Count
+# TYPE Requests5XX counter
+# HELP HandlerTime Torchserve prometheus gauge metric with unit: ms
+# TYPE HandlerTime gauge
+# HELP ts_inference_requests_total Torchserve prometheus counter metric with unit: Count
+# TYPE ts_inference_requests_total counter
+# HELP PredictionTime Torchserve prometheus gauge metric with unit: ms
+# TYPE PredictionTime gauge
+# HELP MemoryUtilization Torchserve prometheus gauge metric with unit: Percent
+# TYPE MemoryUtilization gauge
+MemoryUtilization{Level="Host",Hostname="a2013b14c674",} 4.7
+# HELP CPUUtilization Torchserve prometheus gauge metric with unit: Percent
+# TYPE CPUUtilization gauge
+CPUUtilization{Level="Host",Hostname="a2013b14c674",} 50.0
+# HELP Requests2XX Torchserve prometheus counter metric with unit: Count
+# TYPE Requests2XX counter
+Requests2XX{Level="Host",Hostname="a2013b14c674",} 6.0
+# HELP Requests4XX Torchserve prometheus counter metric with unit: Count
+# TYPE Requests4XX counter
+Requests4XX{Level="Host",Hostname="a2013b14c674",} 1.0
+# HELP WorkerLoadTime Torchserve prometheus gauge metric with unit: Milliseconds
+# TYPE WorkerLoadTime gauge
+# HELP GPUMemoryUtilization Torchserve prometheus gauge metric with unit: Percent
+# TYPE GPUMemoryUtilization gauge
+# HELP MemoryUsed Torchserve prometheus gauge metric with unit: Megabytes
+# TYPE MemoryUsed gauge
+MemoryUsed{Level="Host",Hostname="a2013b14c674",} 805.3515625
+# HELP MemoryAvailable Torchserve prometheus gauge metric with unit: Megabytes
+# TYPE MemoryAvailable gauge
+MemoryAvailable{Level="Host",Hostname="a2013b14c674",} 30557.16015625
+# HELP DiskAvailable Torchserve prometheus gauge metric with unit: Gigabytes
+# TYPE DiskAvailable gauge
+DiskAvailable{Level="Host",Hostname="a2013b14c674",} 134.30173110961914
+# HELP QueueTime Torchserve prometheus gauge metric with unit: Milliseconds
+# TYPE QueueTime gauge
+# HELP ts_queue_latency_microseconds Torchserve prometheus counter metric with unit: Microseconds
+# TYPE ts_queue_latency_microseconds counter
+# HELP GPUUtilization Torchserve prometheus gauge metric with unit: Percent
+# TYPE GPUUtilization gauge
+# HELP WorkerThreadTime Torchserve prometheus gauge metric with unit: Milliseconds
+# TYPE WorkerThreadTime gauge
+# HELP GPUMemoryUsed Torchserve prometheus gauge metric with unit: Megabytes
+# TYPE GPUMemoryUsed gauge
+# HELP ts_inference_latency_microseconds Torchserve prometheus counter metric with unit: Microseconds
+# TYPE ts_inference_latency_microseconds counter
+# HELP DiskUtilization Torchserve prometheus gauge metric with unit: Percent
+# TYPE DiskUtilization gauge
+DiskUtilization{Level="Host",Hostname="a2013b14c674",} 43.8
+# HELP DiskUsage Torchserve prometheus gauge metric with unit: Gigabytes
+# TYPE DiskUsage gauge
+DiskUsage{Level="Host",Hostname="a2013b14c674",} 104.55699157714844
