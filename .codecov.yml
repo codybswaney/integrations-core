@@ -546,6 +546,10 @@ coverage:
         target: 50
         flags:
         - tokumx
+      TorchServe:
+        target: 75
+        flags:
+        - torchserve
       Traffic_Server:
         target: 75
         flags:
@@ -1319,6 +1323,11 @@ flags:
     paths:
     - tokumx/datadog_checks/tokumx
     - tokumx/tests
+  torchserve:
+    carryforward: true
+    paths:
+    - torchserve/datadog_checks/torchserve
+    - torchserve/tests
   traffic_server:
     carryforward: true
     paths:
