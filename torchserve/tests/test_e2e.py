@@ -17,7 +17,7 @@ def test_check(dd_agent_check, instance):
 
     for expected_metric in METRICS:
         aggregator.assert_metric(f"torchserve.{expected_metric}")
-        aggregator.assert_metric_has_tag(expected_metric, f'endpoint:{OPENMETRICS_ENDPOINT}')
+        aggregator.assert_metric_has_tag(f"torchserve.{expected_metric}", f'endpoint:{OPENMETRICS_ENDPOINT}')
 
     aggregator.assert_all_metrics_covered()
     aggregator.assert_metrics_using_metadata(get_metadata_metrics())
