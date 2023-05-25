@@ -2,3 +2,9 @@
 
 [[envs.default.matrix]]
 python = ["3.8"]
+version = ["0.8"]
+
+[envs.default.overrides]
+matrix.version.env-vars = [
+  { key = "TORCHSERVE_VERSION", value = "0.8.0", if = ["0.8"] },
+]
