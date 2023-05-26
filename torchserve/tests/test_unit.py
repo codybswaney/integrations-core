@@ -20,7 +20,7 @@ def test_check(dd_run_check, aggregator, check, mocked_instance, mocker):
     for expected_metric in METRICS:
         aggregator.assert_metric(
             f"torchserve.{expected_metric}",
-            tags=['Hostname:a2013b14c674', 'Level:Host', 'endpoint:http://torchserve:8082/metrics'],
+            tags=['Hostname:88665a372f4b.ant.amazon.com', 'Level:Host', 'endpoint:http://torchserve:8082/metrics'],
         )
 
     aggregator.assert_all_metrics_covered()
