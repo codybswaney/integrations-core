@@ -6,10 +6,12 @@ from datadog_checks.dev import get_docker_hostname, get_here
 
 HERE = get_here()
 
-API_PORT = "8080"
+INFERENCE_API_PORT = "8080"
+MANAGEMENT_API_PORT = "8081"
 OPENMETRICS_PORT = "8082"
 
-API_URL = f"http://{get_docker_hostname()}:{API_PORT}"
+INFERENCE_API_URL = f"http://{get_docker_hostname()}:{INFERENCE_API_PORT}"
+MANAGEMENT_API_URL = f"http://{get_docker_hostname()}:{MANAGEMENT_API_PORT}"
 OPENMETRICS_ENDPOINT = f"http://{get_docker_hostname()}:{OPENMETRICS_PORT}/metrics"
 
 INSTANCE = {
