@@ -1,11 +1,12 @@
 version: '3.9'
 
 services:
-  cockroachdb:
+  torchserve:
     container_name: torchserve
     image: pytorch/torchserve:${TORCHSERVE_VERSION}-cpu
     volumes:
       - ./torchserve/config.properties:/home/model-server/config.properties
+      - ./torchserve/models:/home/model-server/model-store
     ports:
       - "8080:8080"
       - "8081:8081"
