@@ -7,3 +7,6 @@ from datadog_checks.base import AgentCheck
 
 class TorchserveInferenceAPICheck(AgentCheck):
     __NAMESPACE__ = 'torchserve'
+
+    def check(self, _):
+        pass

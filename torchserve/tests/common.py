@@ -31,9 +31,9 @@ MOCKED_OPENMETRICS_INSTANCE = {
 }
 
 MOCKED_INFERENCE_INSTANCE = {
-    "url": "http://torchserve:8080",
+    "inference_api_url": "http://torchserve:8080",
 }
 
 MOCKED_MANAGEMENT_INSTANCE = {
-    "url": "http://torchserve:8081",
+    "management_api_url": "http://torchserve:8081",
 }
