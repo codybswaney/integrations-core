@@ -5,6 +5,60 @@ files:
   - template: init_config
     options:
     - template: init_config/openmetrics
+    - template: init_config/http
+      overrides:
+        proxy.hidden: true
+        skip_proxy.hidden: true
+        timeout.hidden: true
   - template: instances
+    multiple_instances_defined: true
     options:
-    - template: instances/openmetrics
+      - name: OpenMetrics
+        description: | 
+          TorchServe OpenMetrics endpoint configuration
+        options:
+          - template: instances/openmetrics
+            overrides:
+              openmetrics_endpoint.required: false
+              exclude_metrics_by_labels.description: |
+                A mapping of labels to exclude metrics with matching label name and their corresponding metric values. 
+                To match all values of a label, set it to `true`.
+    
+                Note: Label filtering happens before `rename_labels`.
+    
+                For example, the following configuration instructs the check to exclude all metrics with
+                a label `worker` or a label `pid` with the value of either `23` or `42`.
+    
+                  exclude_metrics_by_labels:
+                    worker: true
+                    pid:
+                    - '23'
+                    - '42'
+              cache_shared_labels.description: |
+                When `share_labels` is set, it instructs the check to cache labels collected 
+                from the first payload for improved performance.
+            
+                Set this to `false` to compute label sharing for every payload at the risk 
+                of potentially increased memory usage.
+    # TODO Could we merge the two API configs, having two URLs but one http template to simplify the ocnfig a little bit?
+      - name: inference
+        description: TorchServe Inference API endpoint configuration
+        options:
+
+          - name: inference_api_url
+            required: false
+            description: The TorchServe Inference API url to connect to.
+            value:
+              example: "http://localhost:8080"
+              type: string
+          - template: instances/http
+      - name: management
+        description: TorchServe Management API endpoint configuration
+        options:
+          - name: management_api_url
+            required: false
+            description: The TorchServe Management API url to connect to.
+            value:
+              example: "http://localhost:8081"
+              type: string
+          - template: instances/http

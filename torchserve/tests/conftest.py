@@ -12,12 +12,26 @@ from datadog_checks.dev.conditions import CheckEndpoints, WaitFor
 from datadog_checks.dev.http import MockResponse
 from datadog_checks.torchserve import TorchserveCheck
 
-from .common import INFERENCE_API_URL, HERE, INSTANCE, MOCKED_INSTANCE, OPENMETRICS_ENDPOINT
+from .common import (
+    HERE,
+    INFERENCE_API_URL,
+    INFERENCE_INSTANCE,
+    MANAGEMENT_INSTANCE,
+    MOCKED_INFERENCE_INSTANCE,
+    MOCKED_MANAGEMENT_INSTANCE,
+    MOCKED_OPENMETRICS_INSTANCE,
+    OPENMETRICS_ENDPOINT,
+    OPENMETRICS_INSTANCE,
+)
 
 
 def run_prediction(model):
     try:
-        response = requests.post(f"{INFERENCE_API_URL}/predictions/{model}", data='{"input": 2.0}', headers={'Content-Type': 'application/json'})
+        response = requests.post(
+            f"{INFERENCE_API_URL}/predictions/{model}",
+            data='{"input": 2.0}',
+            headers={'Content-Type': 'application/json'},
+        )
         response.raise_for_status()
     except requests.HTTPError:
         return False
@@ -38,28 +52,60 @@ def dd_environment():
     ]
 
     with docker_run(
-            compose_file=os.path.join(
-                get_here(),
-                "docker",
-                "docker-compose.yaml",
-            ),
-            conditions=conditions,
+        compose_file=os.path.join(
+            get_here(),
+            "docker",
+            "docker-compose.yaml",
+        ),
+        conditions=conditions,
     ):
         for _ in range(10):
-            for model in ("linear_regression_1_1", "linear_regression_1_2", "linear_regression_2_2", "linear_regression_2_3", "linear_regression_3_2"):
+            for model in (
+                "linear_regression_1_1",
+                "linear_regression_1_2",
+                "linear_regression_2_2",
+                "linear_regression_2_3",
+                "linear_regression_3_2",
+            ):
                 run_prediction(model)
 
-        yield copy.deepcopy(INSTANCE)
+        yield {
+            "instances": [
+                OPENMETRICS_INSTANCE,
+                INFERENCE_INSTANCE,
+                MANAGEMENT_INSTANCE,
+            ]
+        }
 
 
 @pytest.fixture
-def instance():
-    return copy.deepcopy(INSTANCE)
+def openmetrics_instance():
+    return copy.deepcopy(OPENMETRICS_INSTANCE)
 
 
 @pytest.fixture
-def mocked_instance():
-    return copy.deepcopy(MOCKED_INSTANCE)
+def inference_instance():
+    return copy.deepcopy(INFERENCE_INSTANCE)
+
+
+@pytest.fixture
+def management_instance():
+    return copy.deepcopy(MANAGEMENT_INSTANCE)
+
+
+@pytest.fixture
+def mocked_openmetrics_instance():
+    return copy.deepcopy(MOCKED_OPENMETRICS_INSTANCE)
+
+
+@pytest.fixture
+def mocked_inference_instance():
+    return copy.deepcopy(MOCKED_INFERENCE_INSTANCE)
+
+
+@pytest.fixture
+def mocked_management_instance():
+    return copy.deepcopy(MOCKED_MANAGEMENT_INSTANCE)
 
 
 @pytest.fixture

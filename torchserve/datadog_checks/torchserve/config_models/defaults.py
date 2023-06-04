@@ -130,6 +130,10 @@ def instance_include_labels(field, value):
     return get_default_field_value(field, value)
 
 
+def instance_inference_api_url(field, value):
+    return 'http://localhost:8080'
+
+
 def instance_kerberos_auth(field, value):
     return 'disabled'
 
@@ -162,6 +166,10 @@ def instance_log_requests(field, value):
     return False
 
 
+def instance_management_api_url(field, value):
+    return 'http://localhost:8081'
+
+
 def instance_metric_patterns(field, value):
     return get_default_field_value(field, value)
 
@@ -183,6 +191,10 @@ def instance_non_cumulative_histogram_buckets(field, value):
 
 
 def instance_ntlm_domain(field, value):
+    return get_default_field_value(field, value)
+
+
+def instance_openmetrics_endpoint(field, value):
     return get_default_field_value(field, value)
 
 

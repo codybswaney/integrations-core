@@ -7,15 +7,15 @@ from datadog_checks.base import AgentCheck  # noqa: F401
 from datadog_checks.base.stubs.aggregator import AggregatorStub  # noqa: F401
 from datadog_checks.dev.utils import get_metadata_metrics
 
-from .common import METRICS
-from .conftest import mock_http_responses
+from ..conftest import mock_http_responses
+from .metrics import METRICS
 
 pytestmark = pytest.mark.unit
 
 
-def test_check(dd_run_check, aggregator, check, mocked_instance, mocker):
+def test_check(dd_run_check, aggregator, check, mocked_openmetrics_instance, mocker):
     mocker.patch('requests.get', wraps=mock_http_responses)
-    dd_run_check(check(mocked_instance))
+    dd_run_check(check(mocked_openmetrics_instance))
 
     for expected_metric in METRICS:
         aggregator.assert_metric(

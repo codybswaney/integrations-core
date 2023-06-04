@@ -14,14 +14,26 @@ INFERENCE_API_URL = f"http://{get_docker_hostname()}:{INFERENCE_API_PORT}"
 MANAGEMENT_API_URL = f"http://{get_docker_hostname()}:{MANAGEMENT_API_PORT}"
 OPENMETRICS_ENDPOINT = f"http://{get_docker_hostname()}:{OPENMETRICS_PORT}/metrics"
 
-INSTANCE = {
+OPENMETRICS_INSTANCE = {
     "openmetrics_endpoint": OPENMETRICS_ENDPOINT,
 }
 
-MOCKED_INSTANCE = {
+INFERENCE_INSTANCE = {
+    "inference_api_url": INFERENCE_API_URL,
+}
+
+MANAGEMENT_INSTANCE = {
+    "management_api_url": MANAGEMENT_API_URL,
+}
+
+MOCKED_OPENMETRICS_INSTANCE = {
     "openmetrics_endpoint": "http://torchserve:8082/metrics",
 }
 
-METRICS = {
-    'frontend.requests.2xx.count',
+MOCKED_INFERENCE_INSTANCE = {
+    "url": "http://torchserve:8080",
+}
+
+MOCKED_MANAGEMENT_INSTANCE = {
+    "url": "http://torchserve:8081",
 }

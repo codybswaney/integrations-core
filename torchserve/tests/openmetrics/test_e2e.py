@@ -7,13 +7,14 @@ from datadog_checks.base import AgentCheck  # noqa: F401
 from datadog_checks.base.stubs.aggregator import AggregatorStub  # noqa: F401
 from datadog_checks.dev.utils import get_metadata_metrics
 
-from .common import METRICS, OPENMETRICS_ENDPOINT
+from ..common import OPENMETRICS_ENDPOINT
+from .metrics import METRICS
 
-pytestmark = [pytest.mark.integration, pytest.mark.usefixtures("dd_environment")]
+pytestmark = [pytest.mark.e2e, pytest.mark.usefixtures("dd_environment")]
 
 
-def test_check(dd_run_check, aggregator, check, instance):
-    dd_run_check(check(instance))
+def test_check(dd_agent_check, openmetrics_instance):
+    aggregator = dd_agent_check(openmetrics_instance, rate=True)
 
     for expected_metric in METRICS:
         aggregator.assert_metric(f"torchserve.{expected_metric}")

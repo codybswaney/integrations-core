@@ -100,6 +100,7 @@ class InstanceConfig(BaseModel):
     ignore_connection_errors: Optional[bool]
     ignore_tags: Optional[Sequence[str]]
     include_labels: Optional[Sequence[str]]
+    inference_api_url: Optional[str]
     kerberos_auth: Optional[str]
     kerberos_cache: Optional[str]
     kerberos_delegate: Optional[bool]
@@ -108,13 +109,14 @@ class InstanceConfig(BaseModel):
     kerberos_keytab: Optional[str]
     kerberos_principal: Optional[str]
     log_requests: Optional[bool]
+    management_api_url: Optional[str]
     metric_patterns: Optional[MetricPatterns]
     metrics: Optional[Sequence[Union[str, Mapping[str, Union[str, Metric]]]]]
     min_collection_interval: Optional[float]
     namespace: Optional[str] = Field(None, regex='\\w*')
     non_cumulative_histogram_buckets: Optional[bool]
     ntlm_domain: Optional[str]
-    openmetrics_endpoint: str
+    openmetrics_endpoint: Optional[str]
     password: Optional[str]
     persist_connections: Optional[bool]
     proxy: Optional[Proxy]

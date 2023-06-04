@@ -59,7 +59,7 @@ files:
             value:
               type: string
               example: "detailed"
-      - template: instances/openmetrics
+    - template: instances/openmetrics
         overrides:
           openmetrics_endpoint.required: false
           openmetrics_endpoint.hidden: true
