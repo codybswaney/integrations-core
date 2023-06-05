@@ -16,6 +16,7 @@ from .common import (
     HERE,
     INFERENCE_API_URL,
     INFERENCE_INSTANCE,
+    MANAGEMENT_API_URL,
     MANAGEMENT_INSTANCE,
     MOCKED_INFERENCE_INSTANCE,
     MOCKED_MANAGEMENT_INSTANCE,
@@ -43,6 +44,7 @@ def run_prediction(model):
 def dd_environment():
     conditions = [
         CheckEndpoints(f"{INFERENCE_API_URL}/ping"),
+        CheckEndpoints(f"{MANAGEMENT_API_URL}/models"),
         CheckEndpoints(OPENMETRICS_ENDPOINT),
         WaitFor(run_prediction, args=("linear_regression_1_1",)),
         WaitFor(run_prediction, args=("linear_regression_1_2",)),
