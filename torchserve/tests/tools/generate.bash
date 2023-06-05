@@ -4,6 +4,13 @@ rm -f *.mar *.pth
 
 python generate_pth.py -a 1 -b 2 -o 1_2.pth
 torch-model-archiver --model-name linear_regression_1_2 --version 1 --model-file model.py --serialized-file 1_2.pth --handler handler.py
+mv linear_regression_1_2.mar linear_regression_1_2_v1.mar
+python generate_pth.py -a 1 -b 2 -o 1_2.pth
+torch-model-archiver --model-name linear_regression_1_2 --version 2 --model-file model.py --serialized-file 1_2.pth --handler handler.py
+mv linear_regression_1_2.mar linear_regression_1_2_v2.mar
+python generate_pth.py -a 1 -b 2 -o 1_2.pth
+torch-model-archiver --model-name linear_regression_1_2 --version 3 --model-file model.py --serialized-file 1_2.pth --handler handler.py
+mv linear_regression_1_2.mar linear_regression_1_2_v3.mar
 
 python generate_pth.py -a 2 -b 3 -o 2_3.pth
 torch-model-archiver --model-name linear_regression_2_3 --version 1 --model-file model.py --serialized-file 2_3.pth --handler handler.py
@@ -17,6 +24,6 @@ torch-model-archiver --model-name linear_regression_1_1 --version 1 --model-file
 python generate_pth.py -a 2 -b 2 -o 2_2.pth
 torch-model-archiver --model-name linear_regression_2_2 --version 1 --model-file model.py --serialized-file 2_2.pth --handler handler.py
 
-rm ../../docker/torchserve/models/*
-mv *.mar ../../docker/torchserve/models
+rm -f ../docker/torchserve/models/*
+mv *.mar ../docker/torchserve/models
 rm -f *.mar *.pth
