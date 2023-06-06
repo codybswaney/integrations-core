@@ -40,6 +40,18 @@ def run_prediction(model):
         return response.status_code == 200
 
 
+def set_model_default_version(model, version):
+    try:
+        response = requests.put(
+            f"{MANAGEMENT_API_URL}/models/{model}/{version}/set-default",
+        )
+        response.raise_for_status()
+    except requests.HTTPError:
+        return False
+    else:
+        return response.status_code == 200
+
+
 @pytest.fixture(scope='session')
 def dd_environment():
     conditions = [
@@ -51,6 +63,7 @@ def dd_environment():
         WaitFor(run_prediction, args=("linear_regression_2_2",)),
         WaitFor(run_prediction, args=("linear_regression_2_3",)),
         WaitFor(run_prediction, args=("linear_regression_3_2",)),
+        WaitFor(set_model_default_version, args=("linear_regression_1_2", "3")),
     ]
 
     with docker_run(
