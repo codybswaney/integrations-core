@@ -36,7 +36,7 @@ def test_e2e_profile_3com_huawei(dd_agent_check):
               'name': '3com-huawei.device.name',
               'profile': '3com-huawei',
               'status': 1,
-              'sys_object_id': '1.3.6.1.4.1.43.1.999',
+              'sys_object_id': '1.3.6.1.4.1.43.45.1.2.999',
               'tags': ['device_namespace:default',
                        'snmp_device:' + ip_address,
                        'snmp_host:3com-huawei.device.name',

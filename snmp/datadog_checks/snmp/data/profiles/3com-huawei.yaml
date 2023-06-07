@@ -2,7 +2,7 @@ extends:
   - 3com-generic.yaml
 
 sysobjectid:
-  - 1.3.6.1.4.1.43.45.1.2.* # 3Com Huawei Products (a3Com.jv-mib.huawei.hwproducts)
+  - 1.3.6.1.4.1.43.45.1.2.*  # 3Com Huawei Products (a3Com.jv-mib.huawei.hwproducts)
 
 metrics:
   - MIB: A3COM-HUAWEI-LswDEVM-MIB
@@ -12,6 +12,9 @@ metrics:
     symbols:
       - name: cpu.usage
         OID: 1.3.6.1.4.1.43.45.1.6.1.1.1.3
+    metric_tags:
+      - index: 1  # hwCpuIndex
+        tag: cpu
   - MIB: A3COM-HUAWEI-LswDEVM-MIB
     table:
       name: hwMemTable
@@ -21,6 +24,9 @@ metrics:
         OID: 1.3.6.1.4.1.43.45.1.6.1.2.1.1.2
       - name: memory.free
         OID: 1.3.6.1.4.1.43.45.1.6.1.2.1.1.3
+    metric_tags:
+      - index: 1  # hwMemModuleIndex
+        tag: mem
   - MIB: A3COM-HUAWEI-LswDEVM-MIB
     table:
       name: hwdevMFanStatusTable
