@@ -18,7 +18,7 @@ def test_e2e_profile_3com_huawei(dd_agent_check):
     ip_address = get_device_ip_from_config(config)
     common_tags = [
         'snmp_profile:3com-huawei',
-        'snmp_host:3com.device.name',
+        'snmp_host:3com-huawei.device.name',
         'device_namespace:default',
         'snmp_device:' + ip_address,
     ]
@@ -29,17 +29,17 @@ def test_e2e_profile_3com_huawei(dd_agent_check):
     aggregator.assert_all_metrics_covered()
 
     # --- TEST METADATA ---
-    device = {'description': '3Com Device Desc',
+    device = {'description': '3Com Huawei Device Desc',
               'id': 'default:' + ip_address,
               'id_tags': ['device_namespace:default', 'snmp_device:' + ip_address],
               'ip_address': '' + ip_address,
-              'name': '3com.device.name',
+              'name': '3com-huawei.device.name',
               'profile': '3com-huawei',
               'status': 1,
-              'sys_object_id': '1.3.6.1.4.1.43.1.99999999',
+              'sys_object_id': '1.3.6.1.4.1.43.1.999',
               'tags': ['device_namespace:default',
                        'snmp_device:' + ip_address,
-                       'snmp_host:3com.device.name',
+                       'snmp_host:3com-huawei.device.name',
                        'snmp_profile:3com-huawei'],
               'vendor': '3com'}
     assert_device_metadata(aggregator, device)
