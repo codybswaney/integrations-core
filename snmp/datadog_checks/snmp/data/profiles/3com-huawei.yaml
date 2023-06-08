@@ -7,10 +7,10 @@ sysobjectid:
 metrics:
   - MIB: A3COM-HUAWEI-LswDEVM-MIB
     table:
-      name: hwCpuTable
+      name: hwCpuTable  # indexes: hwCpuIndex
       OID: 1.3.6.1.4.1.43.45.1.6.1.1
     symbols:
-      - name: cpu.usage  # indexes: hwCpuIndex
+      - name: cpu.usage
         OID: 1.3.6.1.4.1.43.45.1.6.1.1.1.3
     metric_tags:
       - index: 1
@@ -32,13 +32,15 @@ metrics:
       name: hwdevMFanStatusTable  # indexes: hwDevMFanNum
       OID: 1.3.6.1.4.1.43.45.1.2.23.1.9.1.1
     symbols:
-      - name: TODO_RENAME_ME
+      - name: hwdevMFan
         constant_value_one: true
     metric_tags:
+      - index: 1
+        tag: fan_num
       - column:
           OID: 1.3.6.1.4.1.43.45.1.2.23.1.9.1.1.1.2
           name: hwDevMFanStatus
-        tag: hw_dev_m_fan_status_TODO_RENAME_ME
+        tag: fan_status
         mapping:
           1: active
           2: deactive
@@ -46,16 +48,18 @@ metrics:
           4: unsupported
   - MIB: A3COM-HUAWEI-LswDEVM-MIB
     table:
-      name: hwdevMPowerStatusTable
+      name: hwdevMPowerStatusTable  # indexes: hwDevMPowerNum
       OID: 1.3.6.1.4.1.43.45.1.2.23.1.9.1.2
     symbols:
-      - name: TODO_RENAME_ME
+      - name: hwdevMPowerStatus
         constant_value_one: true
     metric_tags:
+      - index: 1
+        tag: power_num
       - column:
           OID: 1.3.6.1.4.1.43.45.1.2.23.1.9.1.2.1.2
           name: hwDevMPowerStatus
-        tag: hw_dev_m_power_status_TODO_RENAME_ME
+        tag: power_status
         mapping:
           1: active
           2: deactive

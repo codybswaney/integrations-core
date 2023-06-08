@@ -44,6 +44,24 @@ def test_e2e_profile_3com_huawei(dd_agent_check):
         aggregator.assert_metric('snmp.memory.total', metric_type=aggregator.GAUGE, tags=mem_tags)
         aggregator.assert_metric('snmp.memory.usage', metric_type=aggregator.GAUGE, tags=mem_tags)
 
+    fan_row_tags = [
+        ["fan_num:11", "fan_status:active"],
+        ["fan_num:12", "fan_status:deactive"],
+        ["fan_num:13", "fan_status:not_installed"],
+        ["fan_num:14", "fan_status:unsupported"],
+    ]
+    for fan_tags in fan_row_tags:
+        aggregator.assert_metric('snmp.hwdevMFan', metric_type=aggregator.GAUGE, tags=common_tags + fan_tags)
+
+    fan_row_tags = [
+        ["power_num:11", "power_status:active"],
+        ["power_num:12", "power_status:deactive"],
+        ["power_num:13", "power_status:not_installed"],
+        ["power_num:14", "power_status:unsupported"],
+    ]
+    for fan_tags in fan_row_tags:
+        aggregator.assert_metric('snmp.hwdevMPowerStatus', metric_type=aggregator.GAUGE, tags=common_tags + fan_tags)
+
     aggregator.assert_all_metrics_covered()
 
     # --- TEST METADATA ---
