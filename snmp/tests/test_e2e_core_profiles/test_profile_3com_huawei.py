@@ -1,6 +1,7 @@
 # (C) Datadog, Inc. 2023-present
 # All rights reserved
-# Licensed under Simplified BSD License (see LICENSE)
+# Licensed under a 3-clause BSD style license (see LICENSE)
+
 import pytest
 
 from .utils import create_profile_test_config, get_device_ip_from_config, assert_common_metrics, \
