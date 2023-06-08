@@ -1343,7 +1343,6 @@ def test_async_job_enabled(integration_check, dbm_instance, statement_samples_en
     check = integration_check(dbm_instance)
     check._connect()
     check.check(dbm_instance)
-    check.cancel()
     if statement_samples_enabled or dbm_instance['query_activity']['enabled']:
         assert check.statement_samples._job_loop_future is not None
         check.statement_samples._job_loop_future.result()
