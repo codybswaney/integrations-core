@@ -4,10 +4,14 @@
 
 import pytest
 
-from .utils import create_profile_test_config, get_device_ip_from_config, assert_common_metrics, \
-    assert_extend_generic_if
 from .. import common
 from ..test_e2e_core_metadata import assert_device_metadata
+from .utils import (
+    assert_common_metrics,
+    assert_extend_generic_if,
+    create_profile_test_config,
+    get_device_ip_from_config,
+)
 
 pytestmark = [pytest.mark.e2e, common.py3_plus_only, common.snmp_integration_only]
 
@@ -30,17 +34,21 @@ def test_e2e_profile_3com_huawei(dd_agent_check):
     aggregator.assert_all_metrics_covered()
 
     # --- TEST METADATA ---
-    device = {'description': '3Com Huawei Device Desc',
-              'id': 'default:' + ip_address,
-              'id_tags': ['device_namespace:default', 'snmp_device:' + ip_address],
-              'ip_address': '' + ip_address,
-              'name': '3com-huawei.device.name',
-              'profile': '3com-huawei',
-              'status': 1,
-              'sys_object_id': '1.3.6.1.4.1.43.45.1.2.999',
-              'tags': ['device_namespace:default',
-                       'snmp_device:' + ip_address,
-                       'snmp_host:3com-huawei.device.name',
-                       'snmp_profile:3com-huawei'],
-              'vendor': '3com'}
+    device = {
+        'description': '3Com Huawei Device Desc',
+        'id': 'default:' + ip_address,
+        'id_tags': ['device_namespace:default', 'snmp_device:' + ip_address],
+        'ip_address': '' + ip_address,
+        'name': '3com-huawei.device.name',
+        'profile': '3com-huawei',
+        'status': 1,
+        'sys_object_id': '1.3.6.1.4.1.43.45.1.2.999',
+        'tags': [
+            'device_namespace:default',
+            'snmp_device:' + ip_address,
+            'snmp_host:3com-huawei.device.name',
+            'snmp_profile:3com-huawei',
+        ],
+        'vendor': '3com',
+    }
     assert_device_metadata(aggregator, device)
