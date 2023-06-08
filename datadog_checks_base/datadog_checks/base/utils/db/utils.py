@@ -9,11 +9,6 @@ import os
 import socket
 import threading
 import time
-<<<<<<< HEAD
-from concurrent.futures import CancelledError
-from concurrent.futures.thread import ThreadPoolExecutor
-=======
->>>>>>> 355a5ae2ed (formatting change)
 from concurrent.futures import CancelledError
 from concurrent.futures.thread import ThreadPoolExecutor
 from itertools import chain
@@ -265,29 +260,12 @@ class DBMAsyncJob(object):
 
         # Ensure cancel() returns only when the job loop is fully cancelled
         # result raises CancelledError if the thread was successfully cancelled
-<<<<<<< HEAD
-<<<<<<< HEAD
         try:
             if self._job_loop_future is not None:
                 self._job_loop_future.result(timeout=10)
         except CancelledError:
             pass
 
-=======
-        try: 
-            result = self._job_loop_future.result(timeout=10)
-        except CancelledError:
-            pass
-            
->>>>>>> 479a39ec75 (ensure async job fully cancels in dbmasyncjob)
-=======
-        try:
-            if self._job_loop_future is not None:
-                self._job_loop_future.result(timeout=10)
-        except CancelledError:
-            pass
-
->>>>>>> e2b0a0fabc (formatting change)
     def run_job_loop(self, tags):
         """
         :param tags:
