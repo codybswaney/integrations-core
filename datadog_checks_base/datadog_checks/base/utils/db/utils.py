@@ -11,6 +11,7 @@ import threading
 import time
 from concurrent.futures import CancelledError
 from concurrent.futures.thread import ThreadPoolExecutor
+from concurrent.futures import CancelledError
 from itertools import chain
 from typing import Any, Callable, Dict, List, Tuple  # noqa: F401
 
@@ -277,7 +278,8 @@ class DBMAsyncJob(object):
 >>>>>>> 479a39ec75 (ensure async job fully cancels in dbmasyncjob)
 =======
         try:
-            result = self._job_loop_future.result(timeout=10)
+            if self._job_loop_future is not None:
+                self._job_loop_future.result(timeout=10)
         except CancelledError:
             pass
 
