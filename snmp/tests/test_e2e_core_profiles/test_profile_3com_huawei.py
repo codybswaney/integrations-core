@@ -31,6 +31,19 @@ def test_e2e_profile_3com_huawei(dd_agent_check):
     # --- TEST METRICS ---
     assert_common_metrics(aggregator, common_tags)
     assert_extend_generic_if(aggregator, common_tags)
+
+    cpu_ids = [881, 882]
+    for cpu in cpu_ids:
+        cpu_tags = common_tags + ['cpu:{}'.format(cpu)]
+        aggregator.assert_metric('snmp.cpu.usage', metric_type=aggregator.GAUGE, tags=cpu_tags)
+
+    mem_ids = [991, 992]
+    for mem in mem_ids:
+        mem_tags = common_tags + ['mem:{}'.format(mem)]
+        aggregator.assert_metric('snmp.memory.free', metric_type=aggregator.GAUGE, tags=mem_tags)
+        aggregator.assert_metric('snmp.memory.total', metric_type=aggregator.GAUGE, tags=mem_tags)
+        aggregator.assert_metric('snmp.memory.usage', metric_type=aggregator.GAUGE, tags=mem_tags)
+
     aggregator.assert_all_metrics_covered()
 
     # --- TEST METADATA ---

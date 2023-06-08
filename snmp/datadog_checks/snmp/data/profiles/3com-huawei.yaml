@@ -10,14 +10,14 @@ metrics:
       name: hwCpuTable
       OID: 1.3.6.1.4.1.43.45.1.6.1.1
     symbols:
-      - name: cpu.usage
+      - name: cpu.usage  # indexes: hwCpuIndex
         OID: 1.3.6.1.4.1.43.45.1.6.1.1.1.3
     metric_tags:
-      - index: 1  # hwCpuIndex
+      - index: 1
         tag: cpu
   - MIB: A3COM-HUAWEI-LswDEVM-MIB
     table:
-      name: hwMemTable
+      name: hwMemTable  # indexes: hwMemModuleIndex
       OID: 1.3.6.1.4.1.43.45.1.6.1.2.1
     symbols:
       - name: memory.total
@@ -25,11 +25,11 @@ metrics:
       - name: memory.free
         OID: 1.3.6.1.4.1.43.45.1.6.1.2.1.1.3
     metric_tags:
-      - index: 1  # hwMemModuleIndex
+      - index: 1
         tag: mem
   - MIB: A3COM-HUAWEI-LswDEVM-MIB
     table:
-      name: hwdevMFanStatusTable
+      name: hwdevMFanStatusTable  # indexes: hwDevMFanNum
       OID: 1.3.6.1.4.1.43.45.1.2.23.1.9.1.1
     symbols:
       - name: TODO_RENAME_ME
