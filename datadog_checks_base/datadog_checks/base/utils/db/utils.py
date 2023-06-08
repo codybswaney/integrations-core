@@ -101,7 +101,6 @@ def create_extra_transformer(column_transformer, source=None):
 
     # Extra transformers that call regular transformers will want to pass values directly.
     else:
-
         transformer = column_transformer
 
     return transformer
@@ -260,11 +259,11 @@ class DBMAsyncJob(object):
 
         # Ensure cancel() returns only when the job loop is fully cancelled
         # result raises CancelledError if the thread was successfully cancelled
-        try: 
+        try:
             result = self._job_loop_future.result(timeout=10)
         except CancelledError:
             pass
-            
+
     def run_job_loop(self, tags):
         """
         :param tags:
