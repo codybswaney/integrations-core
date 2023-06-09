@@ -203,7 +203,7 @@ def instance_ntlm_domain(field, value):
 
 
 def instance_openmetrics_endpoint(field, value):
-    return get_default_field_value(field, value)
+    return 'http://localhost:8082/metrics'
 
 
 def instance_password(field, value):
