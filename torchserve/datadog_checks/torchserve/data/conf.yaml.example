@@ -47,10 +47,10 @@ instances:
 
     ## TorchServe OpenMetrics endpoint configuration
   -
-    ## @param openmetrics_endpoint - string - optional
+    ## @param openmetrics_endpoint - string - optional - default: http://localhost:8082/metrics
     ## The URL exposing metrics in the OpenMetrics format.
     #
-    # openmetrics_endpoint: <OPENMETRICS_ENDPOINT>
+    # openmetrics_endpoint: http://localhost:8082/metrics
 
     ## @param raw_metric_prefix - string - optional
     ## A prefix that is removed from all exposed metric names, if present.

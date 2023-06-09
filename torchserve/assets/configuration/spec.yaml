@@ -20,6 +20,7 @@ files:
           - template: instances/openmetrics
             overrides:
               openmetrics_endpoint.required: false
+              openmetrics_endpoint.value.example: http://localhost:8082/metrics
               exclude_metrics_by_labels.description: |
                 A mapping of labels to exclude metrics with matching label name and their corresponding metric values. 
                 To match all values of a label, set it to `true`.
