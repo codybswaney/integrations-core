@@ -7,7 +7,7 @@ from datadog_checks.torchserve.inference_api_check import TorchserveInferenceAPI
 from datadog_checks.torchserve.management_api_check import TorchserveManagementAPICheck
 from datadog_checks.torchserve.openmetrics_check import TorchserveOpenMetricsCheck
 
-CONFIGURATION_SECTION = (
+CONFIGURATION_OPTIONS = (
     "openmetrics_endpoint",
     "inference_api_url",
     "management_api_url",
@@ -18,7 +18,7 @@ class TorchserveCheck(AgentCheck):
     def __new__(cls, name, init_config, instances):
         instance = instances[0]
 
-        configured_endpoint = [config for config in CONFIGURATION_SECTION if config in instance]
+        configured_endpoint = [config for config in CONFIGURATION_OPTIONS if config in instance]
 
         if not configured_endpoint:
             raise ConfigurationError('TODO: not enough')
