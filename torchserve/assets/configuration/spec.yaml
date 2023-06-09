@@ -40,7 +40,7 @@ files:
             
                 Set this to `false` to compute label sharing for every payload at the risk 
                 of potentially increased memory usage.
-      - name: inference
+      - name: Inference API
         description: TorchServe Inference API endpoint configuration
         options:
 
@@ -51,7 +51,7 @@ files:
               example: "http://localhost:8080"
               type: string
           - template: instances/http
-      - name: management
+      - name: Management API
         description: TorchServe Management API endpoint configuration
         options:
           - name: management_api_url
