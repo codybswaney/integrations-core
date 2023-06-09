@@ -40,7 +40,6 @@ files:
             
                 Set this to `false` to compute label sharing for every payload at the risk 
                 of potentially increased memory usage.
-    # TODO Could we merge the two API configs, having two URLs but one http template to simplify the ocnfig a little bit?
       - name: inference
         description: TorchServe Inference API endpoint configuration
         options:
@@ -61,4 +60,36 @@ files:
             value:
               example: "http://localhost:8081"
               type: string
+          - name: models
+            description: |
+              A list of models for which metrics should be collected.
+            value:
+              type: array
+              items:
+                type: string
+          - name: models_discovery
+            description: |
+              A mapping of models autodiscovery patterns for which metrics should be collected.
+            options:
+              - name: limit
+                description: |
+                  Maximum number of models to be 'autodiscovered'.
+                value:
+                  type: integer
+                  example: 10
+              - name: include
+                description: |
+                  List of regular expressions for models that will be 'autodiscovered'.
+                value:
+                  type: array
+                  items:
+                    type: string
+              - name: exclude
+                description: |
+                  List of regular expressions with the patterns of models that will not be 'autodiscovered'
+                value:
+                  type: array
+                  items:
+                    type: string
           - template: instances/http
+

@@ -182,6 +182,14 @@ def instance_min_collection_interval(field, value):
     return 15
 
 
+def instance_models(field, value):
+    return get_default_field_value(field, value)
+
+
+def instance_models_discovery(field, value):
+    return get_default_field_value(field, value)
+
+
 def instance_namespace(field, value):
     return get_default_field_value(field, value)
 

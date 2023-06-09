@@ -53,6 +53,15 @@ class Metric(BaseModel):
     type: Optional[str]
 
 
+class ModelsDiscovery(BaseModel):
+    class Config:
+        allow_mutation = False
+
+    exclude: Optional[Sequence[str]]
+    include: Optional[Sequence[str]]
+    limit: Optional[int]
+
+
 class Proxy(BaseModel):
     class Config:
         allow_mutation = False
@@ -113,6 +122,8 @@ class InstanceConfig(BaseModel):
     metric_patterns: Optional[MetricPatterns]
     metrics: Optional[Sequence[Union[str, Mapping[str, Union[str, Metric]]]]]
     min_collection_interval: Optional[float]
+    models: Optional[Sequence[str]]
+    models_discovery: Optional[ModelsDiscovery]
     namespace: Optional[str] = Field(None, regex='\\w*')
     non_cumulative_histogram_buckets: Optional[bool]
     ntlm_domain: Optional[str]

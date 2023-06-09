@@ -942,6 +942,30 @@ instances:
     #
     # management_api_url: http://localhost:8081
 
+    ## @param models - list of strings - optional
+    ## A list of models for which metrics should be collected.
+    #
+    # models: []
+
+    ## A mapping of models autodiscovery patterns for which metrics should be collected.
+    #
+    # models_discovery:
+
+        ## @param limit - integer - optional - default: 10
+        ## Maximum number of models to be 'autodiscovered'.
+        #
+        # limit: 10
+
+        ## @param include - list of strings - optional
+        ## List of regular expressions for models that will be 'autodiscovered'.
+        #
+        # include: []
+
+        ## @param exclude - list of strings - optional
+        ## List of regular expressions with the patterns of models that will not be 'autodiscovered'
+        #
+        # exclude: []
+
     ## @param proxy - mapping - optional
     ## This overrides the `proxy` setting in `init_config`.
     ##
